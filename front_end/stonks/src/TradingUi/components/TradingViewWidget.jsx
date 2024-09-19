@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, memo } from 'react';
-
+import './TradingViewWidget.css'
 function TradingViewWidget({ symbol }) {
   const container = useRef();
 
@@ -12,8 +12,8 @@ function TradingViewWidget({ symbol }) {
         script.type = 'text/javascript';
         script.async = true;
         script.innerHTML = JSON.stringify({
-          "width": "900",
-          "height": "610",
+          "width": "850",
+          "height": "500",
           "symbol": symbol,
           "interval": "1D",
           "timezone": "Etc/UTC",

@@ -3,14 +3,14 @@ import TradingViewWidget from "../components/TradingViewWidget";
 import "./tradingpage.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Watchlist from "../components/Watchlist";
 
 const Tradingpage = () => {
   const navigate = useNavigate();
 
   const [data, setData] = useState([]); // To store the user's shares
   const [balance, setBalance] = useState(null); // To store the user's balance
-  const [selectedSymbol, setSelectedSymbol] = useState('IBM'); // Default symbol
+  const [dailyPnl, setDailyPnl] = useState(null); // To store daily PnL
+
   const [tradeHistory, setTradeHistory] = useState([]); // To store trade history
   const [formdata, setFormData] = useState({
     symbol: "",
@@ -83,7 +83,7 @@ const Tradingpage = () => {
         `http://localhost:5000/price/${shareSymbol}/sell`,
         {
           userId,
-          shareId,
+          shareId:shareId,
           Symbol: shareSymbol,
           size: Size,
         }
@@ -100,10 +100,7 @@ const Tradingpage = () => {
     }
   };
 
-  // Handle symbol change from Watchlist
-  const handleSymbolChange = (symbol) => {
-    setSelectedSymbol(symbol);
-  };
+
 
   // Handle user logout
   const handleLogout = () => {
@@ -160,10 +157,27 @@ const Tradingpage = () => {
         console.error("Error fetching trade history:", error);
       }
     };
+    const fetchDailyPnl = async () => {
+      try {
+        const response = await axios.post("http://localhost:5000/daily/pnl", {
+          userId: localStorage.getItem("userId"),
+        });
+
+        if (response.status === 200) {
+          setDailyPnl(response.data.totalDailyPnl);
+        } else {
+          console.log("Failed to fetch daily PnL");
+        }
+      } catch (error) {
+        console.error("Error fetching daily PnL:", error);
+      }
+    }
 
     fetchUserShares();
     fetchUserBalance();
     fetchTradeHistory();
+    fetchDailyPnl();
+
   }, []);
 
   return (
@@ -195,9 +209,11 @@ const Tradingpage = () => {
         </div>
 
         <div className="trading-area">
-          
-          <TradingViewWidget symbol={selectedSymbol} />
-          <Watchlist className="watchlist"onSymbolClick={handleSymbolChange} />
+
+  
+
+          <TradingViewWidget />
+
           <form className="trade-buttons" onSubmit={handleSubmit}>
             <input
               type="number"
@@ -234,8 +250,9 @@ const Tradingpage = () => {
         </div>
 
         <div className="trade-details">
-          <div className="details-header">P&L</div>
           <div className="details-body">
+          <p>Daily PnL: {dailyPnl !== null ? `$${dailyPnl}` : "Loading..."}</p>
+
             {data && data.length > 0 ? (
               data.map((share, index) => (
                 <div key={index} className="share-detail">

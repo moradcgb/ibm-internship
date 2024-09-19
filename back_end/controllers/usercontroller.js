@@ -1,6 +1,5 @@
 const User = require('../models/user');
 const share = require('../models/share');
-const watchlist = require('../models/watchlist');
 // Create User
 const createuser = async (req, res) => {
   const { name, email, pwd, bd, balance , shares , watchlists} = req.body;
@@ -155,39 +154,8 @@ const getuserbalance = async (req, res) => {
   }
 };
 
-const getwatchlist = async (req, res) => {
-  const { userId } = req.body;
-  
-  try {
-    // Check if userId exists
-    if (!userId) {
-      return res.status(400).json({ message: 'User ID is required.' });
-    }
 
-    // Find watchlist related to the userId
-    const Watchlist = await watchlist.find({user: userId}).populate('user'); 
 
-    // If shares are found, return them
-    if (Watchlist.length > 0) {
-      return res.status(200).json(Watchlist);
-    } else {
-      return res.status(404).json({ message: 'No watchlist found for this user.' });
-    }
-  } catch (error) {
-    console.error('Error fetching watchlist:', error);
-    res.status(500).json({ message: 'Failed to fetch watchlist' });
-  }
-};
-
-const tradehistory = async(req,res) =>{
-  const {userId} = req.body
-
-  try{
-
-  }catch(error){
-    
-  }
-}
 
 
 
@@ -201,5 +169,4 @@ module.exports = {
   finduser,
   getuserbalance,
   getSharesWithUserId,
-  getwatchlist,
 };
