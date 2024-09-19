@@ -6,7 +6,7 @@ const User = require('../models/user');
 const TradeHistory = require('../models/tradehistory');
 
 const createorder = async (req, res) => {
-  const { Symbol, user, state, Type, size ,takeprofit,stoploss} = req.body;
+  const { Symbol, user, state, Type, size } = req.body;
   const { userId } = req.body;
 
   if (!Symbol || !user) {
@@ -42,8 +42,7 @@ const createorder = async (req, res) => {
         Type,
         size,
         user,
-        takeprofit: takeprofit || null,  
-        stoploss: stoploss || null
+      
       });
       if(size<=0){
         res.status(400).json({message:'size cant be negatif or equal to zero '})
@@ -71,15 +70,7 @@ const createorder = async (req, res) => {
   }
 };
 
-const getorder = async (req, res) => {
-  try {
-    const foundShare = await Share.find();
-    res.status(200).json(foundShare);
-  } catch (error) {
-    console.error('Error occurred while trying to retrieve the orders:', error.message);
-    res.status(500).json({ message: 'Failed to retrieve orders', error: error.message });
-  }
-};
+
 
 
 const sellorder = async (req, res) => {
@@ -121,13 +112,13 @@ const sellorder = async (req, res) => {
    
     await newTradeHistory.save();
    
-    // Update user balance and remove share from user
+   
     await User.findByIdAndUpdate(userId, {
-      $inc: { Balance: currentPrice * size + pnl }, // Update balance with PnL
-      $pull: { shares: shareId }, // Remove the closed trade from the user's shares
+      $inc: { Balance: currentPrice * size + pnl }, 
+      $pull: { shares: shareId }, 
     });
 
-    // Remove the share record (if necessary)
+   
     await Share.findByIdAndDelete(shareId);
 
     res.status(200).json({
@@ -226,14 +217,8 @@ const calculateDailyPnl = async (req, res) => {
 
 
 
-    
-
-
-
-
 module.exports = {
   createorder,
-  getorder,
   sellorder,
   getTradeHistory,
   calculateDailyPnl

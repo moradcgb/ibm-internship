@@ -152,7 +152,7 @@
 }
 
 /* Inputs */
-.symbol_name, .share_size, .take_profit, .stop_loss {
+.symbol_name, .share_size {
   background-color: #161B22;
   border: 1px solid #C9D1D9;
   color: #C9D1D9;
@@ -192,10 +192,7 @@
   cursor: pointer;
 }
 
-.modify-btn:hover {
-  background-color: #1F6FEB;
-  
-}
+
 .symbol_name{
   width: 50%;
   margin-left: 10%;
@@ -281,7 +278,7 @@
   background-color: #d63031;
 }
 
-.symbol_name, .share_size, .take_profit, .stop_loss {
+.symbol_name, .share_size {
   width: 100%;
   margin-bottom: 10px;
   padding: 10px;

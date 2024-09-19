@@ -29,7 +29,6 @@ app.post('/usershares',usercontroller.getSharesWithUserId);
 app.post('/daily/pnl',sharecontroller.calculateDailyPnl);
 
 
-app.get('/getshare', sharecontroller.getorder);
 app.post('/price/:symbol/sell',sharecontroller.sellorder);
 app.post('/price/:symbol/buy',sharecontroller.createorder);
 app.post('/trade-history', sharecontroller.getTradeHistory); 

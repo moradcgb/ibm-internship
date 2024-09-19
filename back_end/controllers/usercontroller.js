@@ -16,6 +16,9 @@ const createuser = async (req, res) => {
   }
 
   // Validate password contains number and special character
+  if (pwd.includes(' ')) {
+    return res.status(400).json({ message: 'Password must not contain spaces.' });
+  }
   const containsNumber = /\d/.test(pwd);
   const containsSpecial = /[&\-/_><?,*$]/.test(pwd);
 
@@ -39,7 +42,6 @@ const createuser = async (req, res) => {
       bd,
       balance,
       shares,
-      watchlists,
      
     });
 
@@ -50,7 +52,6 @@ const createuser = async (req, res) => {
     res.status(500).json({ message: 'Failed to create user' });
   }
 };
-//find userbyid
 
 
 
@@ -68,10 +69,9 @@ const finduser = async (req, res) => {
     }
 };
 
-  //test populate by share 
 
   const getSharesWithUserId = async (req, res) => {
-    const { userId } = req.body; // Get userId from the request body
+    const { userId } = req.body; 
   
     try {
       // Check if userId exists

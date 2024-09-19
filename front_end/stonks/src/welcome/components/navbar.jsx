@@ -52,33 +52,7 @@ const Navbar = () => {
                                 Explore
                             </Link>
                         </li>
-                        <li className="navbar-item">
-                            <Link
-                                to="/how"
-                                className={activeLink === "/how" ? "active" : ""}
-                                onClick={() => handleLinkClick("/how")}
-                            >
-                                How it works
-                            </Link>
-                        </li>
-                        <li className="navbar-item">
-                            <Link
-                                to="/community"
-                                className={activeLink === "/community" ? "active" : ""}
-                                onClick={() => handleLinkClick("/community")}
-                            >
-                                Community
-                            </Link>
-                        </li>
-                        <li className="navbar-item">
-                            <Link
-                                to="/about"
-                                className={activeLink === "/about" ? "active" : ""}
-                                onClick={() => handleLinkClick("/about")}
-                            >
-                                About Us
-                            </Link>
-                        </li>
+                
                         {/* Conditionally render login/logout based on login state */}
                         {isLoggedIn ? (
                             <li className="navbar-item">

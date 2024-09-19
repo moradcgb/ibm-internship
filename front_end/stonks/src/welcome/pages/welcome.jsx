@@ -30,21 +30,14 @@ const Welcome = () => {
                     <h2>Stake to our public validators</h2>
                     <div className="new-section-items">
                         <div className="item">
-                            <h3>Leverage our staking infrastructure</h3>
-                            <p>Access best-in-class staking without the overhead and operational burden of running your own validators.</p>
+                            <h3>no leverage trading</h3>
+                            <p>Access best-in-class trading your best stocks with minimal risk.</p>
                         </div>
                         <div className="item">
-                            <h3>Craft bespoke revenue sharing</h3>
-                            <p>Integrators staking to our validators are eligible for revenue sharing once they meet minimum thresholds.</p>
+                            <h3>no swap or commission </h3>
+                            <p>start trading now with our demo accounts with no restrictions or porhibitions.</p>
                         </div>
-                        <div className="item">
-                            <h3>Access to dedicated service teams</h3>
-                            <p>Tap into white glove service with our dedicated service teams. Includes consultations with protocol specialists.</p>
-                        </div>
-                        <div className="item">
-                            <h3>Integrate with custody</h3>
-                            <p>We offer a full end-to-end experience by enabling staking with our validators through custodians.</p>
-                        </div>
+                     
                     </div>
                 </div>
             </div>
