@@ -7,7 +7,9 @@ const userSchema = new mongoose.Schema({
     pwd: { type: String, required: true },
     bd:{type: Date, required: true},
     Balance:{type : Number, default: 0 },
-    shares:[{ type: mongoose.Schema.Types.ObjectId, ref:'share'}]
+    shares:[{ type: mongoose.Schema.Types.ObjectId, ref:'share', required: true}],
+    watchlists:[{ type: mongoose.Schema.Types.ObjectId, ref:'watchlists' , required : true}],
+
 
 });
 

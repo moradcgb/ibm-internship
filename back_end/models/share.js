@@ -16,8 +16,11 @@ const shareSchema = new mongoose.Schema(
       required: true
     },
     size: { type: Number, required: true },
-    user:[{ type: mongoose.Schema.Types.ObjectId, ref:'user'}]
+    user:[{ type: mongoose.Schema.Types.ObjectId, ref:'user' , required : true}],
+    takeprofit:{type:Number},
+    stoploss:{type:Number}
   },
+
   { timestamps: true }
 
 );

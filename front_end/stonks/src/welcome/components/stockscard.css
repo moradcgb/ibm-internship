@@ -1,0 +1,22 @@
+.tradingview-container {
+    position: relative; /* Make this the reference for positioning */
+    width: 350px;
+    height: auto; /* Auto-adjust height to match the widget */
+    margin: 50PX;
+}
+
+.invisiblediv {
+    position: absolute; /* Overlay the widget */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    cursor: pointer;
+    z-index: 1; /* Higher than the widget */
+}
+
+.tradingview-widget-container {
+    position: relative;
+    z-index: 0; /* Ensure the widget is below the invisible div */
+}

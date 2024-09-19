@@ -6,15 +6,31 @@ import Navbar from '../../welcome/components/navbar';
 
 const Explore = () => {
     const navigate = useNavigate();
-    const [formdata, setdata] = useState({
-        balance: '',
-    });
+    const[isdisabled , setisdisabled] = useState(false);
+
 
  
     const handleSubmit = async (newBalance) => {
-        const response = await axios.put('http://localhost:5000/explore/updateb')
-       
+      
+        const response = await axios.put('http://localhost:5000/explore/updateb',{
+                userId:localStorage.getItem('userId'),
+                Balance:newBalance
+            })
+            if(response.status===200){
+                alert('balance updated successfully')
+                setisdisabled(true);
+                console.log("button clicked")
+                navigate('/trade')
+            }
+            if(response.status ===422){
+                alert('user balance is already')
+                setisdisabled(true);
+
+            }
+     
+            
     };
+ 
 
     return (
         <>
@@ -24,19 +40,19 @@ const Explore = () => {
                 <div className="plans">
                     <div className="plan-card">
                         <h3>Check out our demo trading account with a $70,000 balance</h3>
-                        <button className="plan-button" onClick={() => handleSubmit(70000)}>
+                        <button className="plan-button" onClick={() => handleSubmit(70000) } disabled={isdisabled}>
                             Select Plan
                         </button>
                     </div>
                     <div className="plan-card">
                         <h3>Check out our demo trading account with a $100,000 balance</h3>
-                        <button className="plan-button" onClick={() => handleSubmit(100000)}>
+                        <button className="plan-button" onClick={() => handleSubmit(100000)}disabled={isdisabled}>
                             Select Plan
                         </button>
                     </div>
                     <div className="plan-card">
                         <h3>Check out our demo trading account with a $10,000 balance</h3>
-                        <button className="plan-button" onClick={() => handleSubmit(10000)}>
+                        <button className="plan-button" onClick={() => handleSubmit(10000)}disabled={isdisabled}>
                             Select Plan
                         </button>
                     </div>

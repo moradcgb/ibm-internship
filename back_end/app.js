@@ -9,6 +9,7 @@ const axios = require('axios');
 const API_KEY = 'cqst9i1r01qsc7la4ha0cqst9i1r01qsc7la4hag';
 const BASE_URL = 'https://finnhub.io/api/v1/quote';
 const sharecontroller = require('./controllers/sharecontroller');
+const watchlistcontroller = require('./controllers/watchlistcontroller')
 const cors = require('cors')
 app.use(bodyParser.json());
 app.use(cors())
@@ -20,17 +21,21 @@ mongoose.connect('mongodb+srv://usergreatstack:Wtfdude_12@cluster0.9bga5.mongodb
     console.error('Failed to connect to MongoDB', error);
 });
 
-app.put('/explore/updateb',usercontroller.updateb);
+app.put('/explore/updateb',usercontroller.updateb); 
 app.post('/api/register', usercontroller.createuser);
 app.get('/api/fetchuser',usercontroller.finduser);
 app.post('/login',usercontroller.loginuser);
-app.get('/usershares/:id',usercontroller.findusershares);
+app.post('/api/getuserbalance',usercontroller.getuserbalance)
+app.post('/usershares',usercontroller.getSharesWithUserId)
 
 
+app.post('/watchlist/add',watchlistcontroller.addtowatch)
+app.post('/watchlist/getwatchlists',usercontroller.getwatchlist)
 
 app.get('/getshare', sharecontroller.getorder);
 app.post('/price/:symbol/sell',sharecontroller.sellorder);
 app.post('/price/:symbol/buy',sharecontroller.createorder);
+app.post('/trade-history', sharecontroller.getTradeHistory); 
 
 
 

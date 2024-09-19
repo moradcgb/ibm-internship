@@ -1,9 +1,9 @@
 const User = require('../models/user');
-const { v4: uuidv4 } = require('uuid');
-
+const share = require('../models/share');
+const watchlist = require('../models/watchlist');
 // Create User
 const createuser = async (req, res) => {
-  const { name, email, pwd, bd, balance } = req.body;
+  const { name, email, pwd, bd, balance , shares , watchlists} = req.body;
 
   // Validate email
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -39,6 +39,9 @@ const createuser = async (req, res) => {
       pwd,
       bd,
       balance,
+      shares,
+      watchlists,
+     
     });
 
     const savedUser = await newUser.save();
@@ -49,14 +52,7 @@ const createuser = async (req, res) => {
   }
 };
 //find userbyid
-const finduserbyid = async(req,res)=>{
-    try{
-        const foundUser = await User.findById()
-        
-    }catch(error){
 
-    }
-}
 
 
 // Find User
@@ -75,22 +71,32 @@ const finduser = async (req, res) => {
 
   //test populate by share 
 
-  const findusershares = async (req, res) => {
-    const userId = req.params.userId; 
-    try {
-      const foundshares = await User.findById(userId).populate('shares'); 
+  const getSharesWithUserId = async (req, res) => {
+    const { userId } = req.body; // Get userId from the request body
   
-      if (!foundshares || foundshares.shares.length === 0) { 
-        return res.status(404).json({ message: 'Could not find any shares' });
+    try {
+      // Check if userId exists
+      if (!userId) {
+        return res.status(400).json({ message: 'User ID is required.' });
       }
   
-      res.status(200).json(foundshares.shares); 
+      // Find shares related to the userId
+      const shares = await share.find({ user: userId }).populate('user', 'name email'); 
+  
+      // If no shares are found, return 404
+      if (!shares || shares.length === 0) {
+        return res.status(404).json({ message: 'No shares found for this user' });
+      }
+  
+      // If shares are found, return them
+      res.status(200).json(shares);
     } catch (error) {
-      console.error('Error finding user shares:', error);
-      res.status(500).json({ message: 'An error occurred while fetching shares' });
+      console.error('Error fetching shares:', error);
+      res.status(500).json({ message: 'Failed to fetch shares' });
     }
   };
   
+
 // User Login       
 const loginuser = async (req, res) => {
     const { email, pwd } = req.body; 
@@ -108,31 +114,92 @@ const loginuser = async (req, res) => {
     }
   };
   
-//update user balance
 const updateb = async (req, res) => {
-    const { userId, balance } = req.body;
+  const { userId, Balance } = req.body;
 
-    try {
-        const updatedUser = await User.findByIdAndUpdate(userId, { balance }, { new: true });
-        if (updatedUser) {
-            res.status(200).json(updatedUser);
-        } else {
-            res.status(404).json({ message: 'User not found' });
-        }
-    } catch (error) {
-        console.error('Error updating balance:', error);
-        res.status(500).json({ message: 'Error updating balance' });
+  try {
+    const foundUser = await User.findById(userId);
+
+    if (!foundUser) {
+      return res.status(404).json({ message: 'User not found' });
     }
+
+    if (foundUser.Balance > 0) {
+      console.log('User has already updated their balance');
+      return res.status(422).json({ message: 'Balance has already been updated' });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(userId, { Balance }, { new: true });
+
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error('Error updating balance:', error);
+    res.status(500).json({ message: 'Error updating balance' });
+  }
 };
 
+const getuserbalance = async (req, res) => {
+  try {
+    const { userId } = req.body; 
+    const user = await User.findById(userId);
 
-//user logout
+    if (user) {
+      const userBalance = user.Balance; 
+      res.status(200).json({ Balance: userBalance }); 
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    console.error("Error fetching user balance:", error); // Log the error for debugging
+    res.status(500).json({ message: "Couldn't fetch the user balance due to an error" });
+  }
+};
+
+const getwatchlist = async (req, res) => {
+  const { userId } = req.body;
+  
+  try {
+    // Check if userId exists
+    if (!userId) {
+      return res.status(400).json({ message: 'User ID is required.' });
+    }
+
+    // Find watchlist related to the userId
+    const Watchlist = await watchlist.find({user: userId}).populate('user'); 
+
+    // If shares are found, return them
+    if (Watchlist.length > 0) {
+      return res.status(200).json(Watchlist);
+    } else {
+      return res.status(404).json({ message: 'No watchlist found for this user.' });
+    }
+  } catch (error) {
+    console.error('Error fetching watchlist:', error);
+    res.status(500).json({ message: 'Failed to fetch watchlist' });
+  }
+};
+
+const tradehistory = async(req,res) =>{
+  const {userId} = req.body
+
+  try{
+
+  }catch(error){
+    
+  }
+}
+
+
+
+
+
 
 module.exports = {
   createuser,
   updateb,
   loginuser,
   finduser,
-  findusershares
-  
+  getuserbalance,
+  getSharesWithUserId,
+  getwatchlist,
 };
