@@ -1,0 +1,70 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #000;
+    color: #fff;
+}
+
+.signup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.signup-form {
+    background-color: #222;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
+}
+
+.signup-form label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #ccc;
+}
+
+.signup-form input[type="text"],
+.signup-form input[type="email"],
+.signup-form input[type="date"],
+.signup-form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: #333;
+    color: #ccc;
+}
+
+.signup-form input[type="text"]::placeholder,
+.signup-form input[type="email"]::placeholder,
+.signup-form input[type="date"]::placeholder,
+.signup-form input[type="password"]::placeholder {
+    color: #666;
+}
+
+.signup-form .links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.signup-form .forgot-password,
+.signup-form .already-account {
+    font-size: 12px;
+    color: #5e5bf7;
+    margin-top: 10px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.signup-form .forgot-password:hover,
+.signup-form .already-account:hover {
+    color: #aaa;
+}
